@@ -1,4 +1,4 @@
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+//const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCSSExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
@@ -22,11 +22,11 @@ module.exports = {
     devtool: 'source-map',
     plugins:
     [
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: path.resolve(__dirname, '../assets') }
-            ]
-        }),
+        // new CopyWebpackPlugin({
+        //     patterns: [
+        //         { from: path.resolve(__dirname, '../assets') }
+        //     ]
+        // }),
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: path.resolve(__dirname, '../src/index.html'),
@@ -69,35 +69,35 @@ module.exports = {
                 ]
             },
 
-            // Images
-            {
-                test: /\.(jpg|png|gif|svg|jpeg)$/,
-                type: 'asset/resource',
-                generator:
-                {
-                    filename: 'assets/images/[hash][ext]'
-                }
-            },
+            // // Images
+            // {
+            //     test: /\.(jpg|png|gif|svg|jpeg)$/,
+            //     type: 'asset/resource',
+            //     generator:
+            //     {
+            //         filename: 'assets/images/[hash][ext]'
+            //     }
+            // },
 
-            // Fonts
-            {
-                test: /\.(ttf|eot|woff|woff2)$/,
-                type: 'asset/resource',
-                generator:
-                {
-                    filename: 'assets/fonts/[hash][ext]'
-                }
-            },
+            // // Fonts
+            // {
+            //     test: /\.(ttf|eot|woff|woff2)$/,
+            //     type: 'asset/resource',
+            //     generator:
+            //     {
+            //         filename: 'assets/fonts/[hash][ext]'
+            //     }
+            // },
 
-            // Audio files
-            {
-                test: /\.(mp3|wav|ogg|m4a)$/,
-                type: 'asset/resource',
-                generator:
-                {
-                    filename: 'assets/audio/[hash][ext]'
-                }
-            },
+            // // Audio files
+            // {
+            //     test: /\.(mp3|wav|ogg|m4a)$/,
+            //     type: 'asset/resource',
+            //     generator:
+            //     {
+            //         filename: 'assets/audio/[hash][ext]'
+            //     }
+            // },
         ]
     },
     
