@@ -17,13 +17,27 @@ svg .hex-container .selected.type-black .hex-path  {
   /* stroke: #88bc44; */
   fill: #124940;
 }
+
 svg .hex-container .selected.type-blue .hex-path {
   /* stroke: #88bc44; */
   fill: #46bec94e;
+}
+
+svg .hex-container .selected.lastone .hex-path {
+  /* stroke: #88bc44; */
+  stroke: #d52424ce;
+  stroke-width: 6px;
 }
 
 .hex-container .hex-path:hover {
 	fill: #88bc44;
   stroke: red;
   stroke-width: 4px;
+}
+
+.logo-text{
+  color: #065f46;
+  font-size: 42px;
+  /* margin: 10px; */
+  font-family: fantasy;
 }

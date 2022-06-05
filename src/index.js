@@ -1,5 +1,73 @@
 import "./css/hex-svg.css";
 
+const levels=[
+    {'level':0,'name':'level0','maxScore':7,'map':[
+        {'row':13,'col':13,'type':'black'},
+    ]},
+    {'level':1,'name':'level1','maxScore':13,'map':[
+        {'row':13,'col':13,'type':'black'},
+        {'row':13,'col':15,'type':'black'},
+    ]},
+    {'level':2,'name':'level2','maxScore':'10(?)','map':[
+        {'row':13,'col':13,'type':'black'},
+        {'row':13,'col':14,'type':'black'},
+    ]},
+
+    {'level':3,'name':'level3','maxScore':'unknown','map':[
+        {'row':13,'col':13,'type':'black'},
+        {'row':13,'col':15,'type':'black'},
+        {'row':15,'col':14,'type':'black'},
+    ]},
+
+    {'level':4,'name':'level4','maxScore':'unknown','map':[
+        {'row':13,'col':15,'type':'black'},
+        {'row':15,'col':14,'type':'black'},
+        {'row':15,'col':15,'type':'black'},
+        {'row':15,'col':16,'type':'black'},
+    ]},
+
+    {'level':5,'name':'random','maxScore':'unknown','map':[
+        {'row':13,'col':13,'type':'black'},
+        {'row':13,'col':14,'type':'black'},
+    ]},
+
+]
+
+//hexGrid[9][10].g.classList.add('selected');
+//hexGrid[9][10].g.classList.add('type-black');
+
+const navBar = document.getElementById('nav-bar');
+
+const navBarDiv = document.createElement('div');
+navBar.appendChild(navBarDiv);
+
+const logo = document.createElement('div');
+logo.classList.add('logo-text');
+logo.innerText = 'SAMA-GO';
+navBarDiv.appendChild(logo);
+
+const ul=document.createElement('ul');
+levels.forEach(function(level){
+    const li = document.createElement('li');
+    li.innerHTML = `<button class="bg-transparent w-32 hover:bg-teal-500 text-teal-700 font-semibold hover:text-white py-2 px-4 border-2 border-teal-500 hover:border-transparent rounded" style="font-size:20px" onClick="window.setLevel(${level.level})">${level.name.toUpperCase()}</button>`;
+    ul.appendChild(li);
+});
+navBarDiv.appendChild(ul);
+
+function setLevel(level) {
+    levels[level]['map'].forEach(function(hex) {
+        hexGrid[hex.row][hex.col].g.classList.add('selected');
+        hexGrid[hex.row][hex.col].g.classList.add('type-'+hex.type);
+    });
+    gameturn = 0;
+    score=levels[level].map.length;
+    maxScore=levels[level].maxScore
+    scoreBoard.textContent = `SAMA-GO score = ${score} (max:${maxScore})`;
+    lastone=null;
+    navBar.style.display='none';
+}
+window.setLevel=setLevel;
+
 const scoreBoard = document.getElementById('score-board');
 
 const playBoard = document.getElementById('svg-board');
@@ -13,8 +81,8 @@ const numCols = 64;
 const container = document.createElementNS('http://www.w3.org/2000/svg', 'g');
 container.setAttribute('class', 'hex-container');
 
-let container_x = 0;
-let container_y = 0;
+let container_x = -500;
+let container_y = -500;
 let container_scale =-1.;
 container.setAttribute('transform', `translate(${container_x},${container_y}) scale(${Math.exp(container_scale)})`);
 //make container draggable and scalable
@@ -86,7 +154,7 @@ window.hexGrid = hexGrid;
 
 // game functions
 let gameturn = 0;
-let gameover = false;
+let lastone = null;
 
 function selectHex(row, col) {
     const hex = hexGrid[row][col];
@@ -144,21 +212,19 @@ function selectHex(row, col) {
         console.log(`# ${gameturn}:${type} - (${row},${col}) is selected`);
         if(type=='black'){
             score++;
-            scoreBoard.textContent = `SAMA-GO score = ${score}`;
+            scoreBoard.textContent = `SAMA-GO score = ${score} (max:${maxScore})`;
         }
+        if(lastone){
+            lastone.g.classList.remove('lastone');
+        }
+        lastone = hex;
+        lastone.g.classList.add('lastone');
     }
 }
 window.selectHex=selectHex;
 
-//Initial selection
-hexGrid[9][10].g.classList.add('selected');
-hexGrid[9][10].g.classList.add('type-black');
-
-hexGrid[9][12].g.classList.add('selected');
-hexGrid[9][12].g.classList.add('type-black');
-
-let score=2;
-scoreBoard.textContent = `SAMA-GO score = ${score}`;
+let score=0;
+let maxScore=0;
 
 // get nearest neighbors
 function getNeighbors(row, col) {

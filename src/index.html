@@ -4,25 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <!-- <link rel="icon" href="./img/favicon.svg" type="image/svg+xml"> -->
     <title>SAMA-GO</title>
 
     
 </head>
-<body>
-    <div style="background: beige;width:95vw;height:95vh;">
-        <svg id="svg-board" width="95vw" height="95vh">
-            <!-- hexagon tiles -->
-            <!-- <defs>
-                <pattern id="hex" patternUnits="userSpaceOnUse" width="173.2" height="200">
-                    <path fill="#fff" stroke="gray" d="M86.60254037844386 0L173.20508075688772 50L173.20508075688772 150L86.60254037844386 200L0 150L0 50Z" style="filter: drop-shadow(rgba(255, 255, 255, 0.5) 0px 0px 10px);"></path>
-                </pattern>
-            </defs> -->
-            
+<body style="overflow: hidden;margin:0;padding:0;">
+    
+    <div style="background: beige;width:100vw;height:100vh;">
+        <svg id="svg-board" width="100vw" height="100vh">
+            <g id="svg-board-g">
+                <rect id="svg-board-rect" x="0" y="0" width="100vw" height="100vh" fill="white" stroke="black" stroke-width="1" />
+            </g>
         </svg>
     </div>
     <div style="position:absolute;top:0;left:0">
-        <span id="score-board" style="font-size:30px;">SAMA-GO score 2</span>
+        <span id="score-board" style="font-size:30px;"></span>
+    </div>
+
+    <div id="nav-bar" style="position:absolute; display:flex;flex-direction: column;
+    justify-content: center;line-height:1.5;font-size: 30px;top:0;left:0;background: #fffa;width: 100vw;height:100vh;text-align: center;z-index: 1;">
     </div>
 </body>
 </html>
