@@ -1,0 +1,29 @@
+/* hexagonal path in svg */
+.svg-board {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+svg .hex-container .hex-path {
+  fill: beige;
+	stroke: #88bc44;
+	stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+svg .hex-container .selected.type-black .hex-path  {
+  /* stroke: #88bc44; */
+  fill: #124940;
+}
+svg .hex-container .selected.type-blue .hex-path {
+  /* stroke: #88bc44; */
+  fill: #46bec94e;
+}
+
+.hex-container .hex-path:hover {
+	fill: #88bc44;
+  stroke: red;
+  stroke-width: 4px;
+}
