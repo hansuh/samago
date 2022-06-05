@@ -13,23 +13,20 @@ const levels=[
         {'row':13,'col':14,'type':'black'},
     ]},
 
-    {'level':3,'name':'level3','maxScore':'unknown','map':[
+    {'level':3,'name':'level3','maxScore':'17(?)','map':[
         {'row':13,'col':13,'type':'black'},
         {'row':13,'col':15,'type':'black'},
         {'row':15,'col':14,'type':'black'},
     ]},
 
-    {'level':4,'name':'level4','maxScore':'unknown','map':[
+    {'level':4,'name':'level4','maxScore':'18(?)','map':[
         {'row':13,'col':15,'type':'black'},
         {'row':15,'col':14,'type':'black'},
         {'row':15,'col':15,'type':'black'},
         {'row':15,'col':16,'type':'black'},
     ]},
 
-    {'level':5,'name':'random','maxScore':'unknown','map':[
-        {'row':13,'col':13,'type':'black'},
-        {'row':13,'col':14,'type':'black'},
-    ]},
+    {'level':5,'name':'random','maxScore':'?','map':[]},
 
 ]
 
@@ -55,14 +52,34 @@ levels.forEach(function(level){
 navBarDiv.appendChild(ul);
 
 function setLevel(level) {
+    
+    if(level==5){
+        const randomMap = [];
+        for(let i=13;i<19;i++){
+            for(let j=13;j<19;j++){
+                if(Math.random()<0.4){
+                    const type = Math.random()<0.8 ? 'black' : 'blue';
+                    randomMap.push({'row':i,'col':j,'type':type});
+                }
+            }
+        }
+        levels[level].map = randomMap;
+    }
+
+
+    gameturn = 0;
+    score=0;
+
     levels[level]['map'].forEach(function(hex) {
         hexGrid[hex.row][hex.col].g.classList.add('selected');
         hexGrid[hex.row][hex.col].g.classList.add('type-'+hex.type);
+        if(hex.type=='black'){
+            score++;
+        }
     });
-    gameturn = 0;
-    score=levels[level].map.length;
+
     maxScore=levels[level].maxScore
-    scoreBoard.textContent = `SAMA-GO score = ${score} (max:${maxScore})`;
+    scoreBoard.textContent = `SAMA-GO score = ${score} / ${maxScore}`;
     lastone=null;
     navBar.style.display='none';
 }
@@ -74,8 +91,8 @@ const playBoard = document.getElementById('svg-board');
 const rowShift = [100,86.6];
 const colShift = [200,0];
 
-const numRows = 64;
-const numCols = 64;
+const numRows = 32;
+const numCols = 32;
 
 // hex rows container
 const container = document.createElementNS('http://www.w3.org/2000/svg', 'g');
@@ -162,10 +179,15 @@ function selectHex(row, col) {
     if (hex.g.classList.contains('selected')) {
         if(hex.g.classList.contains('turn-' + (gameturn-1))) {
             gameturn--;
+            const newtype = (gameturn % 4) == 0 ? 'black' : 'blue';
             hex.g.classList.remove('selected');
-            hex.g.classList.remove('type-' + ((gameturn % 4) == 0 ? 'black' : 'blue'));
+            hex.g.classList.remove('type-' + newtype);
             hex.g.classList.remove('turn-' + gameturn);
-            console.log(`# ${gameturn}:${type} - (${row},${col}) is unselected`);
+            console.log(`# ${gameturn}:${newtype} - (${row},${col}) is unselected`);
+            if(newtype=='black'){
+                score--;
+                scoreBoard.textContent = `SAMA-GO score = ${score} / ${maxScore}`;
+            }
         }
         else{
             console.log(`# ${gameturn}:${type} - (${row},${col}) cannot be unselected`);
@@ -212,7 +234,7 @@ function selectHex(row, col) {
         console.log(`# ${gameturn}:${type} - (${row},${col}) is selected`);
         if(type=='black'){
             score++;
-            scoreBoard.textContent = `SAMA-GO score = ${score} (max:${maxScore})`;
+            scoreBoard.textContent = `SAMA-GO score = ${score} / ${maxScore}`;
         }
         if(lastone){
             lastone.g.classList.remove('lastone');
